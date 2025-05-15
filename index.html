@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pedidos de Canelones Caseros</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff4e6;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      color: #4b2e2e;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d35400;
+      margin-bottom: 10px;
+    }
+
+    .descripcion {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #d35400;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #b84300;
+    }
+
+    .precio {
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Canelones Caseros</h1>
+  <div class="descripcion">
+    <p>De carne con ricota <strong>o</strong> de espinaca con ricota y boloñesa</p>
+    <div class="precio"><strong>$220</strong> cada uno</div>
+  </div>
+
+<form action="https://formspree.io/f/xanoakno" method="POST">
+
+    <label for="tipo">Tipo de canelón:</label>
+    <select name="tipo" required>
+      <option value="">-- Elegí un tipo --</option>
+      <option value="Carne y Ricota">Carne y Ricota</option>
+      <option value="Espinaca y Ricota con Boloñesa">Espinaca y Ricota con Boloñesa</option>
+    </select>
+
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" name="cantidad" min="1" required />
+
+    <label for="nombre">Nombre completo:</label>
+    <input type="text" name="nombre" required />
+
+    <label for="direccion">Dirección para la entrega:</label>
+    <textarea name="direccion" rows="2" required></textarea>
+
+    <label for="telefono">Número de teléfono:</label>
+    <input type="tel" name="telefono" required />
+
+    <label for="pago">Forma de pago:</label>
+    <select name="pago" required>
+      <option value="Efectivo">Efectivo</option>
+    </select>
+
+    <button type="submit">Enviar pedido</button>
+  </form>
+
+  <footer>
+    Hecho con 💛 en Montevideo
+  </footer>
+
+</body>
+</html>
