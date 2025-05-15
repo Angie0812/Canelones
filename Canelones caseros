@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canelones Caseros</title>
+    <!-- Agregar EmailJS para el envío de correos -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #e74c3c;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            margin-top: 10px;
+        }
+        
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stock-info {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        
+        .stock-info p {
+            margin: 0;
+            font-weight: bold;
+            color: #000000; /* Color negro para el texto del stock */
+        }
+        
+        .out-of-stock {
+            color: #e74c3c !important; /* El !important para asegurar que este color tenga prioridad */
+        }
+        
+        .low-stock {
+            color: #f39c12 !important; /* El !important para asegurar que este color tenga prioridad */
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            margin-top: 0;
+            color: #e74c3c;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            font-size: 1.4rem;
+            margin: 10px 0;
+        }
+        
+        .product-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .recommended {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .select-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        
+        .select-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .order-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        .form-title {
+            margin-top: 0;
+            color: #e74c3c;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .summary {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-title {
+            margin-top: 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .submit-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .info-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        .info-title {
+            margin-top: 0;
+            color: #e74c3c;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .contact {
+            margin-top: 10px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Canelones Caseros</h1>
+            <p class="subtitle">Sabor casero en cada bocado</p>
+            <div class="stock-info">
+                <p>Stock disponible: <span id="current-stock">15</span> bandejas</p>
+            </div>
+        </header>
+
+        <div class="product-container">
+            <div class="product-card" id="product-1">
+                <div class="product-info">
+                    <h3 class="product-title">Canelones de Ricota y Carne</h3>
+                    <p class="product-price">$220</p>
+                    <p class="product-description">Deliciosos canelones rellenos de ricota y carne, cubiertos con tuco y queso gratinado. Bandeja de 3 unidades.</p>
+                    <button class="select-btn" onclick="selectProduct('Ricota y Carne')">Seleccionar</button>
+                </div>
+            </div>
+
+            <div class="product-card" id="product-2">
+                <div class="product-info">
+                    <span class="recommended">Recomendado</span>
+                    <h3 class="product-title">Canelones de Ricota y Espinaca</h3>
+                    <p class="product-price">$220</p>
+                    <p class="product-description">Exquisitos canelones rellenos de ricota y espinaca, cubiertos con tuco y queso gratinado. Bandeja de 3 unidades.</p>
+                    <button class="select-btn" onclick="selectProduct('Ricota y Espinaca')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-form" id="order-form">
+            <h2 class="form-title">Finaliza tu pedido</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="product-type">Tipo de Canelones:</label>
+                    <select id="product-type" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="Ricota y Carne">Ricota y Carne</option>
+                        <option value="Ricota y Espinaca">Ricota y Espinaca (Recomendado)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Cantidad (bandejas):</label>
+                    <input type="number" id="quantity" min="1" value="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Teléfono:</label>
+                    <input type="tel" id="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Dirección de entrega:</label>
+                    <input type="text" id="address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="neighborhood">Barrio:</label>
+                    <select id="neighborhood" required onchange="updateDelivery()">
+                        <option value="">Selecciona una opción</option>
+                        <option value="Cordón">Cordón ($30)</option>
+                        <option value="Parque Rodó">Parque Rodó ($30)</option>
+                        <option value="Aguada">Aguada ($50)</option>
+                        <option value="Ciudad Vieja">Ciudad Vieja ($50)</option>
+                        <option value="Palermo">Palermo ($50)</option>
+                        <option value="Centro">Centro ($50)</option>
+                        <option value="Barrio Sur">Barrio Sur ($50)</option>
+                        <option value="La Blanqueada">La Blanqueada ($50)</option>
+                        <option value="Pocitos">Pocitos ($50)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="payment-method">Método de pago:</label>
+                    <select id="payment-method" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Mercado Pago">Mercado Pago</option>
+                        <option value="Transferencia">Transferencia</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notas adicionales:</label>
+                    <textarea id="notes" rows="3"></textarea>
+                </div>
+
+                <div class="summary">
+                    <h3 class="summary-title">Resumen del pedido</h3>
+                    <div class="summary-row">
+                        <span>Tipo de canelones:</span>
+                        <span id="summary-type">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Cantidad:</span>
+                        <span id="summary-quantity">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="summary-subtotal">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Envío:</span>
+                        <span id="summary-delivery">-</span>
+                    </div>
+                    <div class="summary-row" style="font-weight: bold; margin-top: 15px;">
+                        <span>Total:</span>
+                        <span id="summary-total">-</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Realizar pedido</button>
+            </form>
+        </div>
+
+        <div class="info-section">
+            <h2 class="info-title">Información de envío</h2>
+            <p>Realizamos envíos a domicilio en las siguientes zonas:</p>
+            <ul>
+                <li><strong>$30:</strong> Cordón, Parque Rodó</li>
+                <li><strong>$50:</strong> Aguada, Ciudad Vieja, Palermo, Centro, Barrio Sur, La Blanqueada, Pocitos</li>
+            </ul>
+            <p>Tiempo estimado de entrega: 30-50 minutos</p>
+            
+            <h3>Contacto</h3>
+            <p>Para consultas o pedidos por teléfono:</p>
+            <p class="contact"><strong>Teléfono:</strong> 098 261 048</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Canelones Caseros. Todos los derechos reservados.</p>
+    </footer>
+
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="success-icon">✓</div>
+            <h2>¡Gracias por tu pedido!</h2>
+            <p>Hemos recibido tu pedido correctamente.</p>
+            <p>Tiempo estimado de entrega: <strong>30-50 minutos</strong></p>
+            <p>Te contactaremos al número proporcionado en caso de cualquier consulta.</p>
+            <p><small>Se ha enviado una notificación al vendedor.</small></p>
+            <button class="select-btn" onclick="closeModal()" style="margin-top: 20px;">Aceptar</button>
+        </div>
+    </div>
+
+    <script>
+        // Inicialización de servicios externos
+        (function() {
+            // Inicializar EmailJS (requeriría una cuenta real)
+            // emailjs.init("TU_ID_DE_USUARIO_EMAILJS");
+            console.log("Sistema de notificaciones inicializado");
+        })();
+        // Variables globales
+        const PRICE_PER_TRAY = 220;
+        const DELIVERY_PRICES = {
+            'Cordón': 30,
+            'Parque Rodó': 30,
+            'Aguada': 50,
+            'Ciudad Vieja': 50,
+            'Palermo': 50,
+            'Centro': 50,
+            'Barrio Sur': 50,
+            'La Blanqueada': 50,
+            'Pocitos': 50
+        };
+        const MAX_STOCK = 15; // Stock diario máximo
+        let currentStock = MAX_STOCK; // Stock actual
+        
+        // Funciones de inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar el formulario
+            document.getElementById('checkout-form').addEventListener('submit', submitOrder);
+            
+            // Configurar los listeners para actualización en vivo
+            document.getElementById('product-type').addEventListener('change', updateSummary);
+            document.getElementById('quantity').addEventListener('change', updateSummary);
+            document.getElementById('quantity').addEventListener('input', updateSummary);
+            
+            // Inicializar el resumen
+            updateSummary();
+            
+            // Mostrar stock inicial
+            updateStockDisplay();
+        });
+
+        // Función para seleccionar un producto desde las tarjetas
+        function selectProduct(type) {
+            document.getElementById('product-type').value = type;
+            document.getElementById('order-form').scrollIntoView({ behavior: 'smooth' });
+            updateSummary();
+        }
+
+        // Actualizar el costo de envío basado en el barrio
+        function updateDelivery() {
+            updateSummary();
+        }
+
+        // Actualizar el resumen del pedido
+        function updateSummary() {
+            const productType = document.getElementById('product-type').value;
+            const quantity = parseInt(document.getElementById('quantity').value) || 0;
+            const neighborhood = document.getElementById('neighborhood').value;
+            
+            // Limitar la cantidad al stock disponible
+            if (quantity > currentStock) {
+                document.getElementById('quantity').value = currentStock;
+                alert(Lo sentimos, solo quedan ${currentStock} bandejas disponibles.);
+                updateSummary();
+                return;
+            }
+            
+            let deliveryCost = 0;
+            if (neighborhood && DELIVERY_PRICES[neighborhood]) {
+                deliveryCost = DELIVERY_PRICES[neighborhood];
+            }
+            
+            const subtotal = quantity * PRICE_PER_TRAY;
+            const total = subtotal + deliveryCost;
+            
+            // Actualizar el resumen
+            document.getElementById('summary-type').textContent = productType || '-';
+            document.getElementById('summary-quantity').textContent = quantity || '-';
+            document.getElementById('summary-subtotal').textContent = ${subtotal};
+            document.getElementById('summary-delivery').textContent = neighborhood ? ${deliveryCost} : '-';
+            document.getElementById('summary-total').textContent = ${total};
+        }
+
+        // Procesar el pedido
+        function submitOrder(event) {
+            event.preventDefault();
+            
+            // Obtener todos los datos del formulario
+            const productType = document.getElementById('product-type').value;
+            const quantity = parseInt(document.getElementById('quantity').value) || 0;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const neighborhood = document.getElementById('neighborhood').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+            const notes = document.getElementById('notes').value;
+            
+            // Verificar stock disponible
+            if (quantity > currentStock) {
+                alert(Lo sentimos, solo quedan ${currentStock} bandejas disponibles.);
+                return;
+            }
+            
+            // Actualizar stock
+            currentStock -= quantity;
+            updateStockDisplay();
+            
+            // Calcular precios
+            let deliveryCost = 0;
+            if (neighborhood && DELIVERY_PRICES[neighborhood]) {
+                deliveryCost = DELIVERY_PRICES[neighborhood];
+            }
+            const subtotal = quantity * PRICE_PER_TRAY;
+            const total = subtotal + deliveryCost;
+            
+            // Enviar email de notificación
+            sendEmailNotification({
+                productType,
+                quantity,
+                name,
+                phone,
+                address,
+                neighborhood,
+                paymentMethod,
+                notes,
+                subtotal,
+                deliveryCost,
+                total
+            });
+            
+            // Enviar notificación de WhatsApp
+            sendWhatsAppNotification({
+                productType,
+                quantity,
+                name,
+                phone,
+                address,
+                neighborhood,
+                paymentMethod,
+                notes,
+                total
+            });
+            
+            // Mostrar confirmación
+            document.getElementById('confirmation-modal').style.display = 'flex';
+        }
+        
+        // Función para enviar email de notificación
+        function sendEmailNotification(orderData) {
+            // Crear el cuerpo del email
+            const emailSubject = Nuevo Pedido de Canelones - ${orderData.name};
+            const emailBody = 
+                NUEVO PEDIDO DE CANELONES
+                
+                Detalles del cliente:
+                Nombre: ${orderData.name}
+                Teléfono: ${orderData.phone}
+                Dirección: ${orderData.address}
+                Barrio: ${orderData.neighborhood}
+                
+                Detalles del pedido:
+                Tipo: ${orderData.productType}
+                Cantidad: ${orderData.quantity} bandeja(s)
+                Método de pago: ${orderData.paymentMethod}
+                
+                Costos:
+                Subtotal: ${orderData.subtotal}
+                Envío: ${orderData.deliveryCost}
+                TOTAL: ${orderData.total}
+                
+                Notas adicionales:
+                ${orderData.notes || 'Ninguna'}
+                
+                Stock restante: ${currentStock} bandejas
+            ;
+            
+            // Usar EmailJS para enviar el correo (requiere registro en EmailJS)
+            // Aquí usamos un servicio externo para evitar configurar un servidor de correo
+            try {
+                // Esta es una simulación del envío, en producción necesitarías integrar
+                // un servicio de correo electrónico real como EmailJS, SendGrid, etc.
+                console.log("Enviando email a angiemacarena2002@gmail.com");
+                console.log("Asunto:", emailSubject);
+                console.log("Contenido:", emailBody);
+                
+                // URL para abrir el cliente de correo del usuario con el mensaje predefinido
+                const mailtoUrl = mailto:angiemacarena2002@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)};
+                
+                // Abrir en una nueva ventana (esto requerirá que el usuario confirme el envío)
+                const emailWindow = window.open(mailtoUrl, '_blank');
+                
+                // Si el navegador bloqueó la ventana emergente, proporciona un enlace alternativo
+                if (!emailWindow || emailWindow.closed || typeof emailWindow.closed === 'undefined') {
+                    console.log("El navegador bloqueó la ventana emergente. Proporcionando enlace alternativo.");
+                }
+            } catch (error) {
+                console.error("Error al enviar email:", error);
+            }
+        }
+        
+        // Función para enviar notificación de WhatsApp
+        function sendWhatsAppNotification(orderData) {
+            // Crear el mensaje de WhatsApp
+            const message = 
+🆕 NUEVO PEDIDO DE CANELONES 🆕
+
+Cliente: ${orderData.name}
+Teléfono: ${orderData.phone}
+Dirección: ${orderData.address}, ${orderData.neighborhood}
+
+Pedido:
+- ${orderData.quantity} bandeja(s) de Canelones de ${orderData.productType}
+- Total: ${orderData.total}
+- Pago: ${orderData.paymentMethod}
+
+${orderData.notes ? *Notas:* ${orderData.notes} : ''}
+
+Stock restante: ${currentStock} bandejas
+            ;
+            
+            // Crear enlace para WhatsApp
+            const whatsappUrl = https://api.whatsapp.com/send?phone=598${orderData.phone.replace(/[^\d]/g, '')}&text=${encodeURIComponent(message)};
+            
+            try {
+                console.log("Enviando WhatsApp al 098261048");
+                console.log("Mensaje:", message);
+                
+                // URL para WhatsApp Web con mensaje predefinido (para el dueño del negocio)
+                const ownerWhatsappUrl = https://api.whatsapp.com/send?phone=59898261048&text=${encodeURIComponent(message)};
+                
+                // Abrir en una nueva ventana (solo para simulación, no abriríamos esto automáticamente en producción)
+                const whatsappWindow = window.open(ownerWhatsappUrl, '_blank');
+                
+                // Si el navegador bloqueó la ventana emergente
+                if (!whatsappWindow || whatsappWindow.closed || typeof whatsappWindow.closed === 'undefined') {
+                    console.log("El navegador bloqueó la ventana emergente de WhatsApp. Proporcionando enlace alternativo.");
+                }
+            } catch (error) {
+                console.error("Error al enviar WhatsApp:", error);
+            }
+        }
+        
+        // Actualizar visualización del stock
+        function updateStockDisplay() {
+            const stockDisplay = document.getElementById('current-stock');
+            stockDisplay.textContent = currentStock;
+            
+            // Cambiar color según disponibilidad
+            if (currentStock === 0) {
+                stockDisplay.parentElement.classList.add('out-of-stock');
+                // Deshabilitar botones si no hay stock
+                const buttons = document.querySelectorAll('.select-btn');
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.textContent = 'Agotado';
+                });
+                document.querySelector('.submit-btn').disabled = true;
+            } else if (currentStock <= 5) {
+                stockDisplay.parentElement.classList.add('low-stock');
+                stockDisplay.parentElement.classList.remove('out-of-stock');
+            } else {
+                stockDisplay.parentElement.classList.remove('low-stock');
+                stockDisplay.parentElement.classList.remove('out-of-stock');
+            }
+        }
+
+        // Cerrar el modal de confirmación
+        function closeModal() {
+            document.getElementById('confirmation-modal').style.display = 'none';
+            
+            // Resetear el formulario
+            document.getElementById('checkout-form').reset();
+            updateSummary();
+            
+            // Verificar si hay stock disponible
+            if (currentStock === 0) {
+                alert('Lo sentimos, se han agotado todas las bandejas disponibles para hoy. ¡Vuelve mañana!');
+            }
+        }
+    </script>
+
+</body>
+</html>
